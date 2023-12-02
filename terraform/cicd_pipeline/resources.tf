@@ -1,6 +1,6 @@
 data "aws_iam_policy_document" "codepipeline_assume_role_policy" {
   statement {
-    effect ="Allow"
+    effect = "Allow"
 
     principals {
       type        = "Service"
