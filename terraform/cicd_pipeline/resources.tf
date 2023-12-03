@@ -44,7 +44,7 @@ data "aws_iam_policy_document" "deployment_pipeline_role_policy" {
       "s3:GetObjectVersion",
       "s3:GetBucketVersioning",
       "s3:PutObjectAcl",
-      "s3:PutObject",
+      "s3:PutObject"
     ]
 
     resources = [
@@ -182,9 +182,17 @@ data "aws_iam_policy_document" "codebuild_service_role_policy" {
     actions = [
       "s3:PutObject",
       "s3:GetObject",
-      "s3:GetObjectVersion"
+      "s3:GetObjectVersion",
+      "s3:ListBucket",
+      "s3:ListObjectsV2",
+      "s3:DeleteObject",
+      "s3:DeleteObjects"
     ]
-    resources = ["${aws_s3_bucket.deployment_artifacts_bucket.arn}/*"]
+    
+    resources = [
+      "${aws_s3_bucket.deployment_artifacts_bucket.arn}",
+      "${aws_s3_bucket.deployment_artifacts_bucket.arn}/*"
+    ]
   }
 
   statement {
