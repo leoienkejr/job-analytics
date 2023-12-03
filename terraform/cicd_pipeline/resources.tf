@@ -45,6 +45,10 @@ data "aws_iam_policy_document" "deployment_pipeline_role_policy" {
       "s3:GetBucketVersioning",
       "s3:PutObjectAcl",
       "s3:PutObject",
+      "s3:ListBucket",
+      "s3:ListObjectsV2",
+      "s3:DeleteObject",
+      "s3:DeleteObjects"
     ]
 
     resources = [
