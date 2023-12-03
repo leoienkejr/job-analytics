@@ -17,18 +17,6 @@ variable "env_flag" {
   }
 }
 
-variable "source_connection_name" {
-  type        = string
-  default     = "github-connection"
-  description = "Name of the CodeStar connection that will be used to connect with the source repository"
-}
-
-variable "source_provider_type" {
-  type        = string
-  default     = "GitHub"
-  description = "Type of the source repository provider"
-}
-
 variable "source_repository_id" {
   type = string
 
