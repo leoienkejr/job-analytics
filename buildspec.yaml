@@ -21,7 +21,6 @@ phases:
       - aws s3 rm "${FULL_REPO_COPY_PATH}" --recursive --only-show-errors
       - aws s3 cp . "${FULL_REPO_COPY_PATH}" --recursive --only-show-errors
 
-      
       - echo "bucket = \"${ACCOUNT_ID}-terraform-backend\"\nkey = \"deploy/terraform.state\"\nregion = \"${AWS_REGION}\"" > backend.hcl
       
       - echo "Updating Terraform stack 'cicd_pipeline'..."
