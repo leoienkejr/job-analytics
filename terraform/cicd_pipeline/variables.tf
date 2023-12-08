@@ -3,10 +3,6 @@ variable "aws_region" {
   default = "us-east-1"
 }
 
-variable "aws_credentials_profile" {
-  type = string
-}
-
 variable "env_flag" {
   type        = string
   default     = "dev"

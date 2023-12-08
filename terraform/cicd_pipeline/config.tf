@@ -18,9 +18,9 @@ terraform {
 }
 
 provider "aws" {
-  region                   = var.aws_region
-  shared_credentials_files = ["~/.aws/config"]
-  profile                  = var.aws_credentials_profile
+  region = var.aws_region
+  # shared_credentials_files = ["~/.aws/config"]
+  # profile                  = var.aws_credentials_profile
   default_tags {
     tags = {
       Project = "job-analytics"

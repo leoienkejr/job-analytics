@@ -147,6 +147,12 @@ resource "aws_codebuild_project" "build_project" {
     compute_type    = "BUILD_GENERAL1_SMALL"
     image           = "aws/codebuild/standard:7.0"
     privileged_mode = true
+
+    environment_variable {
+      name  = "REPOSITORY_ID"
+      type  = "PLAINTEXT"
+      value = var.source_repository_id
+    }
   }
 
   cache {
@@ -188,7 +194,7 @@ data "aws_iam_policy_document" "codebuild_service_role_policy" {
       "s3:DeleteObject",
       "s3:DeleteObjects"
     ]
-    
+
     resources = [
       "${aws_s3_bucket.deployment_artifacts_bucket.arn}",
       "${aws_s3_bucket.deployment_artifacts_bucket.arn}/*"

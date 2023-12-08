@@ -16,5 +16,8 @@ phases:
       - ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
       - ARTIFACTS_BUCKET="s3://${ACCOUNT_ID}-job-analytics-artifacts"
       - FULL_REPO_COPY_PATH="${ARTIFACTS_BUCKET}/full_repo/"
+      - echo "Updating repository copy on artifacts bucket..."
       - aws s3 rm "${FULL_REPO_COPY_PATH}" --recursive --only-show-errors
       - aws s3 cp . "${FULL_REPO_COPY_PATH}" --recursive --only-show-errors
+
+      - echo $CODEBUILD_SOURCE_REPO_URL
