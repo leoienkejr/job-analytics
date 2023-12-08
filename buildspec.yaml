@@ -16,5 +16,11 @@ phases:
       - ACCOUNT_ID=$(aws sts get-caller-identity --query "Account" --output text)
       - ARTIFACTS_BUCKET="s3://${ACCOUNT_ID}-job-analytics-artifacts"
       - FULL_REPO_COPY_PATH="${ARTIFACTS_BUCKET}/full_repo/"
+      - echo "Updating repository copy on artifacts bucket..."
       - aws s3 rm "${FULL_REPO_COPY_PATH}" --recursive --only-show-errors
       - aws s3 cp . "${FULL_REPO_COPY_PATH}" --recursive --only-show-errors
+
+      - echo "bucket = \"${ACCOUNT-ID}-terraform-backend\"\nkey = \"deploy/terraform.state\"\nregion = \"${AWS_REGION}\"" > backend.hcl
+      - cd terraform/cicd_pipeline
+      - terraform init -input=false -backend-config=../../backend.hcl
+      - terraform apply -auto-approve -compact-warnings -input=false -var "source_repository_id=${REPOSITORY_ID}"
