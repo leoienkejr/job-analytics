@@ -17,10 +17,10 @@ terraform {
 
 }
 
+# Run 'export AWS_PROFILE=${PROFILE NAME}' when running locally
+
 provider "aws" {
   region = var.aws_region
-  # shared_credentials_files = ["~/.aws/config"]
-  # profile                  = var.aws_credentials_profile
   default_tags {
     tags = {
       Project = "job-analytics"
