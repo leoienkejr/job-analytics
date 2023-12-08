@@ -49,7 +49,9 @@ data "aws_iam_policy_document" "deployment_pipeline_role_policy" {
 
     resources = [
       aws_s3_bucket.deployment_artifacts_bucket.arn,
-      "${aws_s3_bucket.deployment_artifacts_bucket.arn}/*"
+      "${aws_s3_bucket.deployment_artifacts_bucket.arn}/*",
+      "arn:aws:s3:::${local.account_id}-terraform-backend",
+      "arn:aws:s3:::${local.account_id}-terraform-backend/*"
     ]
   }
 
