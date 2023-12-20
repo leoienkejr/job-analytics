@@ -173,56 +173,32 @@ resource "aws_iam_role" "codebuild_service_role" {
 }
 
 data "aws_iam_policy_document" "codebuild_service_role_policy" {
+
   statement {
-    effect = "Allow"
+    effect = "Deny"
+
     actions = [
-      "logs:CreateLogGroup",
-      "logs:CreateLogStream",
-      "logs:PutLogEvents",
+      "*:Delete*",
     ]
+
     resources = ["*"]
   }
 
   statement {
     effect = "Allow"
-    actions = [
-      "s3:PutObject",
-      "s3:GetObject",
-      "s3:GetObjectVersion",
-      "s3:ListBucket",
-      "s3:ListObjectsV2",
-      "s3:DeleteObject",
-      "s3:DeleteObjects"
-    ]
-
-    resources = [
-      "${aws_s3_bucket.deployment_artifacts_bucket.arn}",
-      "${aws_s3_bucket.deployment_artifacts_bucket.arn}/*",
-      "arn:aws:s3:::${local.account_id}-terraform-backend",
-      "arn:aws:s3:::${local.account_id}-terraform-backend/*"
-    ]
-  }
-
-  statement {
-    effect = "Allow"
 
     actions = [
-      "codestar-connections:*",
-      "s3:*",
       "iam:Get*",
       "iam:List*",
       "iam:Describe*",
+      "codestar-connections:*",
+      "s3:*",
+      "logs:*",
       "codebuild:*",
       "codepipeline:*"
     ]
 
     resources = ["*"]
-  }
-
-  statement {
-    effect    = "Allow"
-    actions   = ["codestar-connections:UseConnection"]
-    resources = [aws_codestarconnections_connection.source_connection.arn]
   }
 }
 
