@@ -21,10 +21,9 @@ phases:
       - aws s3 rm "${FULL_REPO_COPY_PATH}" --recursive --only-show-errors
       - aws s3 cp . "${FULL_REPO_COPY_PATH}" --recursive --only-show-errors
 
-      - echo "bucket = \"${ACCOUNT_ID}-terraform-backend\"\nkey = \"deploy/terraform.state\"\nregion = \"${AWS_REGION}\"" > backend.hcl
-      
       - echo "Updating Terraform stack 'cicd_pipeline'..."
-      - cd terraform/cicd_pipeline
-      - terraform init -input=false -backend-config=../../backend.hcl
+      - cd src/terraform/cicd_pipeline
+      - echo "bucket = \"${ACCOUNT_ID}-terraform-backend\"\nkey = \"cicd_pipeline/terraform.state\"\nregion = \"${AWS_REGION}\"" > backend.hcl
+      - terraform init -input=false -backend-config=backend.hcl
       - terraform apply -auto-approve -compact-warnings -input=false -var "source_repository_id=${REPOSITORY_ID}"
-      - cd ../../
+      - cd ../../../
