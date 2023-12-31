@@ -28,6 +28,11 @@ phases:
       - terraform apply -auto-approve -compact-warnings -input=false -var "source_repository_id=${REPOSITORY_ID}"
       - cd ../../../
 
+      - cd src/lambda/python
+      - pip install --upgrade pip
+      - python install_requirements.py
+      - cd ../../../
+
       - echo "Updating Terraform stack 'job_analytics'..."
       - cd src/terraform/job_analytics
       - echo "bucket = \"${ACCOUNT_ID}-terraform-backend\"\nkey = \"job_analytics/terraform.state\"\nregion = \"${AWS_REGION}\"" > backend.hcl
