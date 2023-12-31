@@ -175,16 +175,6 @@ resource "aws_iam_role" "codebuild_service_role" {
 data "aws_iam_policy_document" "codebuild_service_role_policy" {
 
   statement {
-    effect = "Deny"
-
-    actions = [
-      "*:Delete*",
-    ]
-
-    resources = ["*"]
-  }
-
-  statement {
     effect = "Allow"
 
     actions = [
