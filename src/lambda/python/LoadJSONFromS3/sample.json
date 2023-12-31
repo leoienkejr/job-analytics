@@ -1,0 +1,24 @@
+{
+  "person": {
+    "name": "John Doe",
+    "age": 30,
+    "address": {
+      "city": "Anytown",
+      "state": "CA",
+      "zipcode": "12345"
+    },
+    "contacts": [
+      {
+        "type": "email",
+        "value": "john.doe@example.com"
+      },
+      {
+        "type": "phone",
+        "value": "+1 (555) 123-4567"
+      }
+    ],
+    "is_student": false
+  },
+  "favorite_colors": ["blue", "green", "red"],
+  "is_employed": true
+}
