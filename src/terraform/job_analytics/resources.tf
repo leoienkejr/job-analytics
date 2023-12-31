@@ -10,3 +10,11 @@ resource "aws_s3_bucket_public_access_block" "data_lake_storage_public_access_bl
   ignore_public_acls      = true
   restrict_public_buckets = true
 }
+
+
+data "archive_file" "lambda_package_LoadJSONFromS3" {
+  type             = "zip"
+  source_dir      = "${path.module}/../../lambda/python/LoadJSONFromS3"
+  output_file_mode = "0666"
+  output_path      = "${path.module}/../../lambda/python/LoadJSONFromS3/package.zip"
+}
