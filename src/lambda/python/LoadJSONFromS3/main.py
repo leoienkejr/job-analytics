@@ -1,5 +1,5 @@
 import boto3
-import json
+import os, json
 
 def lambda_handler(event, context):
     # Split the S3 path into bucket and key
@@ -14,6 +14,11 @@ def lambda_handler(event, context):
         # Download the file from S3
         response = s3_client.get_object(Bucket=bucket, Key=key)
         json_content = response['Body'].read().decode('utf-8')
+
+        # Insert values for environment variables referenced on the file
+        env_values: dict = json.loads(os.getenv('ENV_VALUES', '{}'))
+        for k in env_values.keys():
+            json_content = json_content.replace(f'${k}', env_values[k])
 
         # Parse JSON content
         parsed_object = json.loads(json_content)
