@@ -74,7 +74,7 @@ resource "aws_lambda_function" "lambda_function_LoadJSONFromS3" {
   role          = aws_iam_role.lambda_execution_role_LoadJSONFromS3.arn
 
   filename         = "${path.module}/../../lambda/python/LoadJSONFromS3/package.zip"
-  source_code_hash = filebase64sha256("${path.module}/../../lambda/python/LoadJSONFromS3/package.zip")
+  source_code_hash = filebase64sha256("src/lambda/python/LoadJSONFromS3/package.zip")
   handler          = "main.lambda_handler"
   runtime          = "python3.11"
   timeout          = 900
