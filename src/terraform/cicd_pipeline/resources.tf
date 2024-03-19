@@ -187,7 +187,8 @@ data "aws_iam_policy_document" "codebuild_service_role_policy" {
       "codebuild:*",
       "codepipeline:*",
       "SNS:*",
-      "events:*"
+      "events:*",
+      "lambda:*"
     ]
 
     resources = ["*"]
@@ -231,7 +232,7 @@ resource "aws_cloudwatch_event_rule" "cicd_pipeline_notifications_rule" {
     source = ["aws.codepipeline"]
 
     detail-type = [
-      "CodePipeline Stage Execution Change"
+      "CodePipeline Stage Execution State Change"
     ]
 
     detail = {
