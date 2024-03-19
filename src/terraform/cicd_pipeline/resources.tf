@@ -185,7 +185,9 @@ data "aws_iam_policy_document" "codebuild_service_role_policy" {
       "s3:*",
       "logs:*",
       "codebuild:*",
-      "codepipeline:*"
+      "codepipeline:*",
+      "SNS:*",
+      "events:*"
     ]
 
     resources = ["*"]
