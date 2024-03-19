@@ -196,3 +196,50 @@ resource "aws_iam_role_policy" "codebuild_service_role_policy_assignment" {
   role   = aws_iam_role.codebuild_service_role.id
   policy = data.aws_iam_policy_document.codebuild_service_role_policy.json
 }
+
+resource "aws_sns_topic" "cicd_pipeline_notifications_topic" {
+  name = "job-analytics-cicd-pipeline-notifications"
+}
+
+resource "aws_sns_topic_policy" "cicd_pipeline_notifications_topic_policy" {
+  arn    = aws_sns_topic.cicd_pipeline_notifications_topic.arn
+  policy = data.aws_iam_policy_document.cicd_pipeline_notifications_topic_policy_document.json
+}
+
+data "aws_iam_policy_document" "cicd_pipeline_notifications_topic_policy_document" {
+  statement {
+    actions = [
+      "SNS:Publish"
+    ]
+
+    effect = "Allow"
+
+    principals {
+      type        = "Service"
+      identifiers = ["events.amazonaws.com"]
+    }
+
+    resources = [aws_sns_topic.cicd_pipeline_notifications_topic.arn]
+  }
+}
+
+resource "aws_cloudwatch_event_rule" "cicd_pipeline_notifications_rule" {
+  name = "capture-codepipeline-stage-failures"
+  event_pattern = jsonencode({
+    source = ["aws.codepipeline"]
+
+    detail-type = [
+      "CodePipeline Stage Execution Change"
+    ]
+
+    detail = {
+      state    = ["FAILED"]
+      pipeline = [aws_codepipeline.deployment_pipeline.name]
+    }
+  })
+}
+
+resource "aws_cloudwatch_event_target" "cicd_pipeline_notifications_target" {
+  rule = aws_cloudwatch_event_rule.cicd_pipeline_notifications_rule.name
+  arn = aws_sns_topic.cicd_pipeline_notifications_topic.arn
+}
