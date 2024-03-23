@@ -113,7 +113,6 @@ def should_build_package(package: Package) -> bool:
     '''
 
     bucket_name, object_key = parse_s3_url(s3_url=package.S3PackageFile)
-    print(bucket_name, object_key)
 
     s3 = boto3.client('s3')
 
@@ -130,7 +129,15 @@ def should_build_package(package: Package) -> bool:
         else:
             raise
 
-def zip_directory(directory_path, zip_filename):
+def zip_directory(directory_path: str, zip_filename: str):
+    '''
+    Generate a .zip file containing all contents of a source directory
+    and its subdirectories
+
+    :param directory_path: Path to the source directory
+    :param zip_filename: Name of the file to be created
+    '''
+
     directory_path = Path(directory_path)
     with zipfile.ZipFile(zip_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
         for file_path in directory_path.glob('**/*'):
@@ -154,7 +161,6 @@ def upload_file_to_s3(s3_url: str, file_path: str, metadata: dict = None) -> Non
     # Calculate the checksum of the file
     with open(file_path, 'rb') as f:
         s3.upload_fileobj(f, bucket_name, key, ExtraArgs={'Metadata': metadata} if metadata else None)
-        print(f'File uploaded successfully to S3://{bucket_name}/{key}')
 
 
 def build_and_upload_package(package: Package):
