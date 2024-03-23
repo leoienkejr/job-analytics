@@ -102,7 +102,7 @@ def parse_s3_url(s3_url: str) -> tuple[str, str]:
     return bucket_name, key
 
 
-def should_build_package(package: Package) -> bool:
+def should_build_package(package: Package, aws_region: str) -> bool:
     ''' 
     Determines if a package needs to be built (or rebuilt) by comparing
     the cumulative hash of the source directory and the hash stored in packge
@@ -113,8 +113,9 @@ def should_build_package(package: Package) -> bool:
     '''
 
     bucket_name, object_key = parse_s3_url(s3_url=package.S3PackageFile)
+    print(bucket_name, object_key)
 
-    s3 = boto3.client('s3')
+    s3 = boto3.client('s3', region_name=aws_region)
 
     try:
         response = s3.head_object(Bucket=bucket_name, Key=object_key)
@@ -156,7 +157,7 @@ def upload_file_to_s3(s3_url: str, file_path: str, metadata: dict = None) -> Non
         print(f'File uploaded successfully to S3://{bucket_name}/{key}')
 
 
-def build_and_upload_package(package: Package):
+def build_and_upload_package(package: Package, aws_region: str):
     ''' 
     Builds a package from the source directory and uploads it to S3
 
@@ -169,7 +170,7 @@ def build_and_upload_package(package: Package):
     package.LocalPackageFile = zip_file
 
     if requirements_file.exists():
-        p = subprocess.run(['pip', 'install', '--no-input', '-qqq', '-r', str(requirements_file), '-t', str(source_dir)], check=True, shell=True)
+        p = subprocess.run(['pip', 'install', '--no-input', '-qqq', '-r', str(requirements_file), '-t', str(source_dir)], check=True)
 
     zip_directory(source_dir, package.LocalPackageFile)
     upload_file_to_s3(
@@ -185,13 +186,14 @@ if __name__ == '__main__':
 
     parser.add_argument('-s', '--source_dir', required=True, help='Directory containing package source directories')
     parser.add_argument('-d', '--s3_destination_prefix', required=True, help='Prefix to the package files stored on S3')
+    parser.add_argument('-r', '--region', required=True, help='AWS region')
     args = parser.parse_args()
 
     s3_destination_prefix = args.s3_destination_prefix if args.s3_destination_prefix.endswith('/') else (args.s3_destination_prefix + '/')
     source_dirs = get_subdirectories(path=args.source_dir)
     packages = match_source_dirs_to_package_files(s3_destination_prefix=s3_destination_prefix, source_dirs=source_dirs)
-    packages_to_build = [pkg for pkg in packages if should_build_package(pkg)]
+    packages_to_build = [pkg for pkg in packages if should_build_package(pkg, aws_region=args.region)]
 
     for pkg in packages_to_build:
-        build_and_upload_package(pkg)
+        build_and_upload_package(pkg, aws_region=args.region)
     
