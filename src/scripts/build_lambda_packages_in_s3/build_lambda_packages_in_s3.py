@@ -165,9 +165,11 @@ def build_and_upload_package(package: Package):
     '''
 
     source_dir = Path(package.SourceDir)
+    source_dir_hash = cumulative_hash(directory_path=package.SourceDir)
     requirements_file = source_dir / 'requirements.txt'
     zip_file = Path(str(source_dir) + '.zip')
     package.LocalPackageFile = zip_file
+    
 
     if requirements_file.exists():
         p = subprocess.run(['pip', 'install', '--no-input', '-qqq', '-r', str(requirements_file), '-t', str(source_dir)], check=True)
@@ -177,7 +179,7 @@ def build_and_upload_package(package: Package):
         s3_url=package.S3PackageFile,
         file_path=package.LocalPackageFile,
         metadata={
-            'source-hash': cumulative_hash(directory_path=package.SourceDir)
+            'source-hash': source_dir_hash
         })
     
 
