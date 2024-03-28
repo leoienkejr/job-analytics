@@ -26,6 +26,7 @@ phases:
       - echo "bucket = \"${ACCOUNT_ID}-terraform-backend\"\nkey = \"deploy/terraform.state\"\nregion = \"${AWS_REGION}\"" > backend.hcl
       - terraform init -input=false -backend-config=backend.hcl
       - terraform apply -auto-approve -compact-warnings -input=false -var "source_repository_id=${REPOSITORY_ID}"
+      - terraform output -json >> ../../../cicd_pipeline.json
       - cd ../../../
 
       # Build Lambda packages
