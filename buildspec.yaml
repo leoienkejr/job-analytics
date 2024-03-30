@@ -34,7 +34,7 @@ phases:
 
       # Updating Terraform stack 'ecr_repos'
       - cd src/terraform/ecr_repos
-      - echo "bucket = \"${ACCOUNT_ID}-terraform-backend\"\nkey = \"job_analytics/terraform.state\"\nregion = \"${AWS_REGION}\"" > backend.hcl
+      - echo "bucket = \"${ACCOUNT_ID}-terraform-backend\"\nkey = \"ecr_repos/terraform.state\"\nregion = \"${AWS_REGION}\"" > backend.hcl
       - terraform init -input=false -backend-config=backend.hcl
       - terraform apply -auto-approve -compact-warnings -input=false
       - cd ../../../
