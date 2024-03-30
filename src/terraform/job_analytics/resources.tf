@@ -16,7 +16,7 @@ resource "aws_s3_bucket" "data_lake_landing_zone" {
 }
 
 resource "aws_s3_bucket_public_access_block" "data_lake_landing_zone_public_access_block" {
-  bucket = aws_s3_bucket.data_lake_storage.id
+  bucket = aws_s3_bucket.data_lake_landing_zone.id
 
   block_public_acls       = true
   block_public_policy     = true
