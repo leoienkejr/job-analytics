@@ -11,11 +11,11 @@ data "aws_iam_policy_document" "lambda_assume_role_policy" {
   }
 }
 
-resource "aws_s3_bucket" "data_lake_storage" {
-  bucket = format("%s-job-analytics-data-lake-storage", local.account_id)
+resource "aws_s3_bucket" "data_lake_landing_zone" {
+  bucket = format("%s-job-analytics-data-lake-landing-zone", local.account_id)
 }
 
-resource "aws_s3_bucket_public_access_block" "data_lake_storage_public_access_block" {
+resource "aws_s3_bucket_public_access_block" "data_lake_landing_zone_public_access_block" {
   bucket = aws_s3_bucket.data_lake_storage.id
 
   block_public_acls       = true
