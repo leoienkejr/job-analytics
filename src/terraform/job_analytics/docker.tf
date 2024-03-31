@@ -3,7 +3,6 @@ resource "docker_image" "linkedin_extractor_image" {
 
   build {
     context = "../../images/linkedin-extractor/"
-    tag = ["linkedin-extractor:latest"]
     cache_from = [ 
         format("%s.dkr.ecr.%s.amazonaws.com/linkedin-extractor:latest", local.account_id, var.aws_region)
     ]
