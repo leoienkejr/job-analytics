@@ -31,6 +31,7 @@ phases:
       - cd ../../../
 
       # Build Lambda packages
+      - pip install -r src/scripts/build_lambda_packages_in_s3/requirements.txt  -t src/scripts/build_lambda_packages_in_s3/
       - python src/scripts/build_lambda_packages_in_s3/build_lambda_packages_in_s3.py -s src/lambda/python/ -d "${ARTIFACTS_BUCKET}/lambda_packages/"
 
       # Updating Terraform stack 'ecr_repos'
