@@ -43,7 +43,7 @@ phases:
       # Updating Terraform stack 'job_analytics'
       - cd src/terraform/job_analytics
       - echo "bucket = \"${ACCOUNT_ID}-terraform-backend\"\nkey = \"job_analytics/terraform.state\"\nregion = \"${AWS_REGION}\"" > backend.hcl
-      - echo 'ecr_default_registry_password="${ECR_DEFAULT_REPOSITORY_PASSWORD}"' > input.tfvars
+      - echo ecr_default_registry_password=\"$ECR_DEFAULT_REPOSITORY_PASSWORD\" > input.tfvars
       - terraform init -input=false -backend-config=backend.hcl
       - terraform apply -auto-approve -compact-warnings -input=false -var-file=input.tfvars
       - cd ../../../
