@@ -1,5 +1,5 @@
 resource "docker_image" "linkedin_extractor_image" {
-  name = "linkedin-extractor:latest"
+  name = format("%s.dkr.ecr.%s.amazonaws.com/linkedin-extractor:latest", local.account_id, var.aws_region)
 
   build {
     context = "../../images/linkedin-extractor/"

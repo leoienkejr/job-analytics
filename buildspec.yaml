@@ -17,7 +17,6 @@ phases:
       - ARTIFACTS_BUCKET="s3://${ACCOUNT_ID}-job-analytics-artifacts"
       - FULL_REPO_COPY_PATH="${ARTIFACTS_BUCKET}/full_repo/"
       - ECR_DEFAULT_REGISTRY_PASSWORD=$(aws ecr get-login-password --region "${AWS_REGION}")
-      - echo $ECR_DEFAULT_REGISTRY_PASSWORD
     
       # "Updating repository copy on artifacts bucket
       - aws s3 rm "${FULL_REPO_COPY_PATH}" --recursive --only-show-errors
@@ -45,7 +44,7 @@ phases:
       # Updating Terraform stack 'job_analytics'
       - cd src/terraform/job_analytics
       - echo "bucket = \"${ACCOUNT_ID}-terraform-backend\"\nkey = \"job_analytics/terraform.state\"\nregion = \"${AWS_REGION}\"" > backend.hcl
-      - echo ecr_default_registry_password=\"$ECR_DEFAULT_REPOSITORY_PASSWORD\" > input.tfvars
+      - echo ecr_default_registry_password=\"$ECR_DEFAULT_REGISTRY_PASSWORD\" > input.tfvars
       - terraform init -input=false -backend-config=backend.hcl
       - terraform apply -auto-approve -compact-warnings -input=false -var-file=input.tfvars
       - cd ../../../
