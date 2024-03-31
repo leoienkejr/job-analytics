@@ -17,6 +17,7 @@ phases:
       - ARTIFACTS_BUCKET="s3://${ACCOUNT_ID}-job-analytics-artifacts"
       - FULL_REPO_COPY_PATH="${ARTIFACTS_BUCKET}/full_repo/"
       - ECR_DEFAULT_REGISTRY_PASSWORD=$(aws ecr get-login-password --region "${AWS_REGION}")
+      - echo $ECR_DEFAULT_REGISTRY_PASSWORD
     
       # "Updating repository copy on artifacts bucket
       - aws s3 rm "${FULL_REPO_COPY_PATH}" --recursive --only-show-errors
