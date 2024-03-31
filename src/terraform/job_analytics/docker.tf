@@ -6,7 +6,7 @@ resource "docker_image" "linkedin_extractor_image" {
     tag = ["linkedin-extractor:latest"]
   }
 
-  triggers {
+  triggers = {
     dir_sha1 = sha1(join("", [for f in fileset(path.module, "../../images/linkedin-extractor/*") : filesha1(f)]))
   }
 }
