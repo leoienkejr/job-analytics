@@ -16,4 +16,8 @@ resource "docker_image" "linkedin_extractor_image" {
 resource "docker_registry_image" "linkedin_extractor_registry_image" {
     name = docker_image.linkedin_extractor_image.name
     keep_remotely = false
+
+    triggers = {
+        image_id = docker_image.linkedin_extractor_image.image_id
+    }
 }
