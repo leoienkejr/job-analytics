@@ -1,9 +1,12 @@
 resource "docker_image" "linkedin_extractor_image" {
-  name = format("%s.dkr.ecr.%s.amazonaws.com/linkedin-extractor", local.account_id, var.aws_region)
+  name = format("%s.dkr.ecr.%s.amazonaws.com/linkedin-extractor:latest", local.account_id, var.aws_region)
 
   build {
     context = "../../images/linkedin-extractor/"
     tag = ["linkedin-extractor:latest"]
+    cache_from = [ 
+        format("%s.dkr.ecr.%s.amazonaws.com/linkedin-extractor:latest", local.account_id, var.aws_region)
+    ]
   }
 
   triggers = {
@@ -13,5 +16,5 @@ resource "docker_image" "linkedin_extractor_image" {
 
 resource "docker_registry_image" "linkedin_extractor_registry_image" {
     name = docker_image.linkedin_extractor_image.name
-    keep_remotely = true
+    keep_remotely = false
 }
