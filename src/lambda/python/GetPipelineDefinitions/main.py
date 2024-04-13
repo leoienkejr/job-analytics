@@ -88,8 +88,8 @@ def format_definitions_for_execution(definitions: str) -> str:
     definitions_obj = json.loads(definitions)
 
     selected_pipelines = list([pipeline['name'] for pipeline in definitions_obj])
-    full_dbt_selector = ' '.join(list([pipeline['dbt_selector'] for pipeline in definitions]))
-    extraction_triggers = list(pipeline['extraction_triggers'] for pipeline in definitions)
+    full_dbt_selector = ' '.join(list([pipeline['dbt_selector'] for pipeline in definitions_obj]))
+    extraction_triggers = list(pipeline['extraction_triggers'] for pipeline in definitions_obj)
     extraction_triggers = functools.reduce(operator.iconcat, extraction_triggers, [])
 
     return json.dumps(
