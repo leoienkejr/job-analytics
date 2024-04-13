@@ -1,0 +1,17 @@
+[
+    {
+        "name": "linkedin-jobs_and_companies",
+        "dbt_selector": "refined.linkedin_jobs+ refined.linkedin_companies+",
+        "extraction_triggers": [
+            {
+                "extractor_type": "AWSBatchJob",
+                "identifier": "...",
+                "parameters": {
+                    "linkedin_search_url": "...",
+                    "s3_output_path": "...",
+                    "max_batch_size": 400
+                }
+            }
+        ]
+    }
+]
