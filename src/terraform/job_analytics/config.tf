@@ -37,7 +37,7 @@ provider "docker" {
   host = "unix:///var/run/docker.sock"
 
   registry_auth {
-    address = format("%s.dkr.ecr.%s.amazonaws.com", local.account_id, var.aws_region)
+    address  = format("%s.dkr.ecr.%s.amazonaws.com", local.account_id, var.aws_region)
     username = "AWS"
     password = var.ecr_default_registry_password
   }

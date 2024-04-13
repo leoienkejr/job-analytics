@@ -4,5 +4,5 @@ variable "aws_region" {
 }
 
 variable "ecr_default_registry_password" {
-  type    = string
+  type = string
 }
