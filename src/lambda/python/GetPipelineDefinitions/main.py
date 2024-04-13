@@ -79,10 +79,10 @@ def get_validated_definitions(definitions: str) -> str:
     
 
 def filter_selected_definitions(definitions: str, selection: list[str]) -> str:
-    return list([pipeline for 
+    return json.dumps(list([pipeline for 
                  pipeline in json.loads(definitions) 
                  if pipeline['name'] in selection]
-            )
+            ))
 
 def format_definitions_for_execution(definitions: str) -> str:
     definitions_obj = json.loads(definitions)
