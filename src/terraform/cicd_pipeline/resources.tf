@@ -178,9 +178,7 @@ data "aws_iam_policy_document" "codebuild_service_role_policy" {
     effect = "Allow"
 
     actions = [
-      "iam:Get*",
-      "iam:List*",
-      "iam:Describe*",
+      "iam:*",
       "codestar-connections:*",
       "s3:*",
       "logs:*",
