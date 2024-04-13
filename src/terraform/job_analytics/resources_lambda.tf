@@ -27,7 +27,8 @@ resource "aws_iam_role_policy" "DefaultLambdaRole_Policy" {
         Action = ["s3:*"]
         Effect = "Allow"
         Resource = [
-          format("arn:aws:s3:::%s-job-analytics-artifacts", local.account_id)
+          format("arn:aws:s3:::%s-job-analytics-artifacts", local.account_id),
+          format("arn:aws:s3:::%s-job-analytics-artifacts/*", local.account_id)
         ]
       }
     ]
